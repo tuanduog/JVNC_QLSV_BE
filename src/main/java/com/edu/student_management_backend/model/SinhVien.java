@@ -2,8 +2,8 @@ package com.edu.student_management_backend.model;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "sinhvien")
+@Entity // đánh dấu SinhVien là 1 entity đại diện cho 1 bảng trong db
+@Table(name = "sinhvien") // chỉ tên bảng tường ứng trong db
 public class SinhVien {
     @Id
     private String masv;

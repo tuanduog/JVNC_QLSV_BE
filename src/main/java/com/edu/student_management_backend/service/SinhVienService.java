@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@Service
+@Service // Annotation
 public class SinhVienService implements UserDetailsService {
     @Autowired
     private SinhVienRepo sinhVienRepo;
@@ -21,3 +21,5 @@ public class SinhVienService implements UserDetailsService {
     }
     
 }
+
+// Xử lý logic

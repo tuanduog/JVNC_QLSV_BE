@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class SinhVienController {
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -27,8 +27,9 @@ public class SinhVienController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+        // Ánh xạ thông tin từ fe và lưu và object AuthRequest
         try {
-            // 1. Xác thực mã sinh viên và mật khẩu
+            // Xác thực mã sinh viên và mật khẩu
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             authRequest.getMasv(), 
@@ -36,13 +37,13 @@ public class SinhVienController {
                     )
             );
 
-            // 2. Load thông tin người dùng từ DB
+            // Load thông tin người dùng từ DB
             UserDetails sinhVienDetails = sinhVienService.loadUserByUsername(authRequest.getMasv());
 
-            // 3. Tạo token JWT
+            // Tạo token JWT
             String token = jwtUtil.generateToken(sinhVienDetails);
 
-            // 4. Trả về token cho frontend
+            // Trả về token cho frontend
             return ResponseEntity.ok(new AuthResponse(token));
 
         } catch (AuthenticationException e) {

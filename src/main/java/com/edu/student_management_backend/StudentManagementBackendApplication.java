@@ -11,3 +11,6 @@ public class StudentManagementBackendApplication {
 	}
 
 }
+// Sử dụng kiến trúc mvc
+// Client request -> Controller -> service -> repo -> model
+
