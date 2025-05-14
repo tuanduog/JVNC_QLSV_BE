@@ -41,7 +41,7 @@ public class SinhVienController {
             UserDetails sinhVienDetails = sinhVienService.loadUserByUsername(authRequest.getMasv());
 
             // Tạo token JWT
-            String token = jwtUtil.generateToken(sinhVienDetails);
+            String token = jwtUtil.generateToken(sinhVienDetails, authRequest.isRemember());
 
             // Trả về token cho frontend
             return ResponseEntity.ok(new AuthResponse(token));

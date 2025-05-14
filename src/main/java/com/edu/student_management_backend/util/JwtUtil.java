@@ -21,16 +21,24 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private String expirationTime; //load từ application.properties
 
+    @Value("${jwt.rememberExpiration}")
+    private String rememberExpirationTime;
+
     public SecretKey getSigningKey() {
         byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
         return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, boolean remember) {
         Long expirationTimeLong = Long.parseLong(expirationTime);
+        Long rememberExpirationTimeLong = Long.parseLong(rememberExpirationTime);
         final Date createDate = new Date();
-        final Date expiration = new Date(createDate.getTime() + expirationTimeLong);
-        
+        final Date expiration;
+        if(remember){
+            expiration = new Date(createDate.getTime() + rememberExpirationTimeLong);
+        } else {
+            expiration = new Date(createDate.getTime() + expirationTimeLong);
+        }
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
