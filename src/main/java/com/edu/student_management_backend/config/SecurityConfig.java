@@ -33,6 +33,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/login").permitAll() // Cho phép login
+                .requestMatchers("/sinhvien").hasRole("SINHVIEN")
+                .requestMatchers("/giangvien").hasRole("GIANGVIEN")
                 .anyRequest().authenticated()               // Các request khác phải xác thực
             );
 

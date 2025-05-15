@@ -2,15 +2,22 @@ package com.edu.student_management_backend.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import io.jsonwebtoken.Claims;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
@@ -24,12 +31,8 @@ public class JwtUtil {
     @Value("${jwt.rememberExpiration}")
     private String rememberExpirationTime;
 
-    public SecretKey getSigningKey() {
-        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
-        return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
-    }
-
     public String generateToken(UserDetails userDetails, boolean remember) {
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         Long expirationTimeLong = Long.parseLong(expirationTime);
         Long rememberExpirationTimeLong = Long.parseLong(rememberExpirationTime);
         final Date createDate = new Date();
@@ -39,17 +42,26 @@ public class JwtUtil {
         } else {
             expiration = new Date(createDate.getTime() + expirationTimeLong);
         }
+        List<String> roles = userDetails.getAuthorities().stream()
+        .map(GrantedAuthority::getAuthority)
+        .collect(Collectors.toList());
+
+        // Tạo claims và thêm roles
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles", roles);
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date())
-                .setExpiration(expiration)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
+            .setClaims(claims)
+            .setSubject(userDetails.getUsername())
+            .setIssuedAt(new Date())
+            .setExpiration(expiration)
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
     }
 
     public String extractUsername(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         return Jwts.parser()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
@@ -60,8 +72,9 @@ public class JwtUtil {
     }
 
     private Date extractExpiration(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         return Jwts.parser()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody()
                 .getExpiration();
@@ -70,5 +83,20 @@ public class JwtUtil {
     public boolean validateToken(String token, UserDetails userDetails) {
         String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<GrantedAuthority> extractAuthorities(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        Claims claims = Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(token)
+                .getBody();
+
+        List<String> roles = (List<String>) claims.get("roles");
+
+        return roles.stream()
+                .map(role -> (GrantedAuthority) () -> role)
+                .collect(Collectors.toList());
     }
 }
