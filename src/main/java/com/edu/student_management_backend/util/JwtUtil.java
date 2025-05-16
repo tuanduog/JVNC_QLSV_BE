@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.edu.student_management_backend.model.CustomerDetail;
+
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import io.jsonwebtoken.Claims;
@@ -42,13 +45,19 @@ public class JwtUtil {
         } else {
             expiration = new Date(createDate.getTime() + expirationTimeLong);
         }
+
+        // them vao payloadf
         List<String> roles = userDetails.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .collect(Collectors.toList());
-
+        String hovaten = "";
+        if(userDetails instanceof CustomerDetail){
+            hovaten = ((CustomerDetail) userDetails).getHovaten();
+        }
         // Tạo claims và thêm roles
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", roles);
+        claims.put("hovaten", hovaten);
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(userDetails.getUsername())
