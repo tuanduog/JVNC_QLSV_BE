@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/login").permitAll() // Cho phép login
                 .requestMatchers("/sinhvien").hasRole("SINHVIEN")
                 .requestMatchers("/giangvien").hasRole("GIANGVIEN")
+                .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()               // Các request khác phải xác thực
             ).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

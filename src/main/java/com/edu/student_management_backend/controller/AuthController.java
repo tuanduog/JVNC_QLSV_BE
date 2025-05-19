@@ -1,5 +1,6 @@
 package com.edu.student_management_backend.controller;
 
+import com.edu.student_management_backend.model.Admin;
 import com.edu.student_management_backend.model.AuthRequest;
 import com.edu.student_management_backend.model.AuthResponse;
 import com.edu.student_management_backend.service.AuthService;
@@ -41,6 +42,9 @@ public class AuthController {
 
     @Autowired
     private GiangVienRepo giangVienRepo;
+
+    @Autowired
+    private AdminRepo adminRepo;
 
     @Autowired
     private SinhVienService sinhVienService;
@@ -100,6 +104,10 @@ public class AuthController {
         if(gv != null){
             return ResponseEntity.ok(gv);
         }
+        Admin admin = adminRepo.findByMaqt(tendn).orElse(null);
+        if(admin != null){
+            return ResponseEntity.ok(admin);
+        }
         return ResponseEntity.status(404).body("Không tìm thấy người dùng");
     }
 
@@ -116,6 +124,4 @@ public class AuthController {
         GiangVien gv_update = giangVienService.updateGiangVien(id, giangVien);
         return ResponseEntity.ok(gv_update);
     }
-    
-    
 }
