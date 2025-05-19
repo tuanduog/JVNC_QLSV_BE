@@ -3,14 +3,25 @@ package com.edu.student_management_backend.controller;
 import com.edu.student_management_backend.model.AuthRequest;
 import com.edu.student_management_backend.model.AuthResponse;
 import com.edu.student_management_backend.service.AuthService;
+import com.edu.student_management_backend.service.GiangVienService;
 import com.edu.student_management_backend.util.JwtUtil;
+
+import org.aspectj.apache.bcel.util.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import com.edu.student_management_backend.repository.*;
+import com.edu.student_management_backend.model.SinhVien;
+import com.edu.student_management_backend.model.GiangVien;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import com.edu.student_management_backend.service.SinhVienService;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,6 +35,18 @@ public class AuthController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private SinhVienRepo sinhVienRepo;
+
+    @Autowired
+    private GiangVienRepo giangVienRepo;
+
+    @Autowired
+    private SinhVienService sinhVienService;
+
+    @Autowired
+    private GiangVienService giangVienService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
@@ -39,7 +62,7 @@ public class AuthController {
 
             // Load thông tin người dùng từ DB
             UserDetails authDetails = authService.loadUserByUsername(authRequest.getTendn());
-
+            
             // Tạo token JWT
             String token = jwtUtil.generateToken(authDetails, authRequest.isRemember());
             String role = authDetails.getAuthorities().stream()
@@ -55,4 +78,44 @@ public class AuthController {
             return ResponseEntity.status(401).body("Sai tên đăng nhập hoặc mật khẩu");
         }
     }
+
+    @PostMapping("/logout")
+    public String postMethodName(@RequestBody String entity) {
+        //TODO: process POST request
+        
+        return entity;
+    }
+
+    @GetMapping("/user-info")
+    public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String tokenHeader){
+        //SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String token = tokenHeader.substring(7);
+        String tendn = jwtUtil.extractUsername(token);
+
+        SinhVien sv = sinhVienRepo.findByMasv(tendn).orElse(null);
+        if(sv != null){
+            return ResponseEntity.ok(sv);
+        }
+        GiangVien gv = giangVienRepo.findByMagv(tendn).orElse(null);
+        if(gv != null){
+            return ResponseEntity.ok(gv);
+        }
+        return ResponseEntity.status(404).body("Không tìm thấy người dùng");
+    }
+
+    @PutMapping("/update-sinhvien/{id}")
+    public ResponseEntity<?> updateSinhVien(@PathVariable String id, @RequestBody SinhVien sinhVien) {
+        //TODO: process PUT request
+        SinhVien sv_update = sinhVienService.updateSinhVien(id, sinhVien);
+        return ResponseEntity.ok(sv_update);
+    }
+
+    @PutMapping("/update-giangvien/{id}")
+    public ResponseEntity<?> updateGiangVien(@PathVariable String id, @RequestBody GiangVien giangVien) {
+        //TODO: process PUT request
+        GiangVien gv_update = giangVienService.updateGiangVien(id, giangVien);
+        return ResponseEntity.ok(gv_update);
+    }
+    
+    
 }

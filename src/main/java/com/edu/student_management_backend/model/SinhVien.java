@@ -12,7 +12,7 @@ public class SinhVien {
     private String gioitinh;
     private String ngaysinh;
     private String quequan;
-    private String sodt;
+    private String sodienthoai;
     private String email;
     private String matkhau;
     private String quyen_nd;
@@ -46,11 +46,11 @@ public class SinhVien {
     public void setQuequan(String quequan) {
         this.quequan = quequan;
     }
-    public String getSodt() {
-        return sodt;
+    public String getSodienthoai() {
+        return sodienthoai;
     }
-    public void setSodt(String sodt) {
-        this.sodt = sodt;
+    public void setSodienthoai(String sodienthoai) {
+        this.sodienthoai = sodienthoai;
     }
     public String getEmail() {
         return email;

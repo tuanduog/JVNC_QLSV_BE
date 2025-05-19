@@ -12,7 +12,7 @@ public class GiangVien {
     private String gioitinh;
     private String ngaysinh;
     private String quequan;
-    private String sodt;
+    private String sodienthoai;
     private String email;
     private String matkhau;
     private String quyen_nd;
@@ -20,14 +20,14 @@ public class GiangVien {
 
     public GiangVien() {
     }
-    public GiangVien(String magv, String hovaten, String gioitinh, String ngaysinh, String quequan, String sodt,
+    public GiangVien(String magv, String hovaten, String gioitinh, String ngaysinh, String quequan, String sodienthoai,
             String email, String matkhau, String quyen_nd) {
         this.magv = magv;
         this.hovaten = hovaten;
         this.gioitinh = gioitinh;
         this.ngaysinh = ngaysinh;
         this.quequan = quequan;
-        this.sodt = sodt;
+        this.sodienthoai = sodienthoai;
         this.email = email;
         this.matkhau = matkhau;
         this.quyen_nd = quyen_nd;
@@ -62,11 +62,11 @@ public class GiangVien {
     public void setQuequan(String quequan) {
         this.quequan = quequan;
     }
-    public String getSodt() {
-        return sodt;
+    public String getSodienthoai() {
+        return sodienthoai;
     }
-    public void setSodt(String sodt) {
-        this.sodt = sodt;
+    public void setSodienthoai(String sodienthoai) {
+        this.sodienthoai = sodienthoai;
     }
     public String getEmail() {
         return email;
