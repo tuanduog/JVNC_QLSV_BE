@@ -70,4 +70,5 @@ public class SinhVien {
     public void setQuyen_nd(String quyen_nd) {
         this.quyen_nd = quyen_nd;
     }
+    
 }

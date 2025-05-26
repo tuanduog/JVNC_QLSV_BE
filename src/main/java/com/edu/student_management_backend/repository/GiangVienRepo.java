@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GiangVienRepo extends JpaRepository<GiangVien, String>{
     Optional<GiangVien> findByMagv(String magv);
+    int deleteByMagv(String magv);
 }

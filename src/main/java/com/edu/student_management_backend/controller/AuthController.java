@@ -7,6 +7,10 @@ import com.edu.student_management_backend.service.AuthService;
 import com.edu.student_management_backend.service.GiangVienService;
 import com.edu.student_management_backend.util.JwtUtil;
 
+import jakarta.transaction.Transactional;
+
+import java.util.List;
+
 import org.aspectj.apache.bcel.util.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +23,13 @@ import org.springframework.web.bind.annotation.*;
 import com.edu.student_management_backend.repository.*;
 import com.edu.student_management_backend.model.SinhVien;
 import com.edu.student_management_backend.model.GiangVien;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import com.edu.student_management_backend.service.SinhVienService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/auth")
@@ -123,5 +130,53 @@ public class AuthController {
         //TODO: process PUT request
         GiangVien gv_update = giangVienService.updateGiangVien(id, giangVien);
         return ResponseEntity.ok(gv_update);
+    }
+
+    @GetMapping("/getall-sinhvien")
+    public ResponseEntity<?> getMethodName() {
+        List<SinhVien> sv = sinhVienService.getAllSinhVien();
+        return ResponseEntity.ok(sv);
+    }
+    
+    @PostMapping("/delete-sinhvien/{masv}")
+    public ResponseEntity<?> deleteSinhVien(@PathVariable String masv) {
+        boolean res = sinhVienService.deleteSinhVien(masv);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/add-sinhvien")
+    public ResponseEntity<?> addSinhVien(@RequestBody SinhVien sv) {
+        SinhVien sv_new = sinhVienService.addSinhVien(sv);
+        return ResponseEntity.ok(sv_new);
+    }
+    
+    @PostMapping("/adm-update-sv/{masv}")
+    public ResponseEntity<?> adUpdateSinhVien(@PathVariable String masv, @RequestBody SinhVien sv_new) {
+        SinhVien sv = sinhVienService.adUpdateSinhVien(masv, sv_new);
+        return ResponseEntity.ok(sv);
+    }
+
+    @GetMapping("/getall-giangvien")
+    public ResponseEntity<?> getAllgv() {
+        List<GiangVien> gv = giangVienService.getAllGiangVien();
+        return ResponseEntity.ok(gv);
+    }
+
+    @PostMapping("/delete-giangvien/{magv}")
+    public ResponseEntity<?> deleteGiangVien(@PathVariable String magv) {
+        boolean res = giangVienService.deleteGiangVien(magv);
+        return ResponseEntity.ok(res);
+    }
+    
+    @PostMapping("/add-giangvien")
+    public ResponseEntity<?> addGiangVien(@RequestBody GiangVien gv) {
+        GiangVien gv_new = giangVienService.addGiangVien(gv);
+        return ResponseEntity.ok(gv_new);
+    }
+    
+    @PostMapping("/adm-update-gv/{magv}")
+    public ResponseEntity<?> putMethodName(@PathVariable String magv, @RequestBody GiangVien gv) {
+        GiangVien gv_new = giangVienService.adUpdateGiangVien(magv, gv);
+        return ResponseEntity.ok(gv_new);
     }
 }
