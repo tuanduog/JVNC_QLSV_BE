@@ -27,9 +27,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
-
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:8080")
@@ -92,5 +89,18 @@ public class AdminController {
         }
         return ResponseEntity.badRequest().body("Xóa thất bại");
     }
+
+    @PostMapping("/add-hocphan")
+    public ResponseEntity<?> addHocphan(@RequestBody HocPhan hp) {
+        HocPhan hp_new = hocPhanService.addHocPhan(hp);
+        return ResponseEntity.ok(hp_new);
+    }
+
+    @PostMapping("/adm-update-hp/{mahp}")
+    public ResponseEntity<?> adUpdateHocPhan(@PathVariable String mahp, @RequestBody HocPhan hp) {
+        HocPhan hp_new = hocPhanService.adUpdateHocPhan(mahp, hp);
+        return ResponseEntity.ok(hp_new);
+    }
+    
     
 }
