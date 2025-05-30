@@ -1,6 +1,7 @@
 package com.edu.student_management_backend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,6 +40,10 @@ public class SinhVienService {
     }
     
     public SinhVien addSinhVien(SinhVien sv){
+        Optional<SinhVien> already_sv = sinhVienRepo.findByMasv(sv.getMasv());
+        if(already_sv.isPresent()){
+            return null;
+        } 
         return sinhVienRepo.save(sv);
     }
     public SinhVien adUpdateSinhVien(String masv, SinhVien sv_new){

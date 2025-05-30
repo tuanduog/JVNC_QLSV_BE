@@ -1,6 +1,7 @@
 package com.edu.student_management_backend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +29,10 @@ public class HocPhanService {
     }
 
     public HocPhan addHocPhan(HocPhan hp){
+        Optional<HocPhan> already_hp = hocPhanRepo.findByMahp(hp.getMahp());
+        if(already_hp.isPresent()){
+            return null;
+        }
         return hocPhanRepo.save(hp);
     }
 

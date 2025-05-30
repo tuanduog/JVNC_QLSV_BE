@@ -4,12 +4,10 @@ import com.edu.student_management_backend.model.Admin;
 import com.edu.student_management_backend.model.AuthRequest;
 import com.edu.student_management_backend.model.AuthResponse;
 import com.edu.student_management_backend.service.AuthService;
-import com.edu.student_management_backend.service.GiangVienService;
+
 import com.edu.student_management_backend.util.JwtUtil;
 
 import jakarta.transaction.Transactional;
-
-import java.util.List;
 
 import org.aspectj.apache.bcel.util.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import com.edu.student_management_backend.repository.*;
 import com.edu.student_management_backend.model.SinhVien;
 import com.edu.student_management_backend.model.GiangVien;
-import com.edu.student_management_backend.service.SinhVienService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/auth")
@@ -53,11 +47,6 @@ public class AuthController {
     @Autowired
     private AdminRepo adminRepo;
 
-    @Autowired
-    private SinhVienService sinhVienService;
-
-    @Autowired
-    private GiangVienService giangVienService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
@@ -118,65 +107,4 @@ public class AuthController {
         return ResponseEntity.status(404).body("Không tìm thấy người dùng");
     }
 
-    @PutMapping("/update-sinhvien/{id}")
-    public ResponseEntity<?> updateSinhVien(@PathVariable String id, @RequestBody SinhVien sinhVien) {
-        //TODO: process PUT request
-        SinhVien sv_update = sinhVienService.updateSinhVien(id, sinhVien);
-        return ResponseEntity.ok(sv_update);
-    }
-
-    @PutMapping("/update-giangvien/{id}")
-    public ResponseEntity<?> updateGiangVien(@PathVariable String id, @RequestBody GiangVien giangVien) {
-        //TODO: process PUT request
-        GiangVien gv_update = giangVienService.updateGiangVien(id, giangVien);
-        return ResponseEntity.ok(gv_update);
-    }
-
-    @GetMapping("/getall-sinhvien")
-    public ResponseEntity<?> getMethodName() {
-        List<SinhVien> sv = sinhVienService.getAllSinhVien();
-        return ResponseEntity.ok(sv);
-    }
-    
-    @PostMapping("/delete-sinhvien/{masv}")
-    public ResponseEntity<?> deleteSinhVien(@PathVariable String masv) {
-        boolean res = sinhVienService.deleteSinhVien(masv);
-        return ResponseEntity.ok(res);
-    }
-
-    @PostMapping("/add-sinhvien")
-    public ResponseEntity<?> addSinhVien(@RequestBody SinhVien sv) {
-        SinhVien sv_new = sinhVienService.addSinhVien(sv);
-        return ResponseEntity.ok(sv_new);
-    }
-    
-    @PostMapping("/adm-update-sv/{masv}")
-    public ResponseEntity<?> adUpdateSinhVien(@PathVariable String masv, @RequestBody SinhVien sv_new) {
-        SinhVien sv = sinhVienService.adUpdateSinhVien(masv, sv_new);
-        return ResponseEntity.ok(sv);
-    }
-
-    @GetMapping("/getall-giangvien")
-    public ResponseEntity<?> getAllgv() {
-        List<GiangVien> gv = giangVienService.getAllGiangVien();
-        return ResponseEntity.ok(gv);
-    }
-
-    @PostMapping("/delete-giangvien/{magv}")
-    public ResponseEntity<?> deleteGiangVien(@PathVariable String magv) {
-        boolean res = giangVienService.deleteGiangVien(magv);
-        return ResponseEntity.ok(res);
-    }
-    
-    @PostMapping("/add-giangvien")
-    public ResponseEntity<?> addGiangVien(@RequestBody GiangVien gv) {
-        GiangVien gv_new = giangVienService.addGiangVien(gv);
-        return ResponseEntity.ok(gv_new);
-    }
-    
-    @PostMapping("/adm-update-gv/{magv}")
-    public ResponseEntity<?> putMethodName(@PathVariable String magv, @RequestBody GiangVien gv) {
-        GiangVien gv_new = giangVienService.adUpdateGiangVien(magv, gv);
-        return ResponseEntity.ok(gv_new);
-    }
 }

@@ -13,15 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.edu.student_management_backend.model.GiangVien;
 import com.edu.student_management_backend.model.HocPhan;
 import com.edu.student_management_backend.model.PhanHoi;
-import com.edu.student_management_backend.repository.HocPhanRepo;
+import com.edu.student_management_backend.model.SinhVien;
 import com.edu.student_management_backend.repository.PhanHoiRepo;
+import com.edu.student_management_backend.service.GiangVienService;
 import com.edu.student_management_backend.service.HocPhanService;
 import com.edu.student_management_backend.service.PhanHoiService;
+import com.edu.student_management_backend.service.SinhVienService;
 
 import jakarta.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +39,67 @@ public class AdminController {
     private PhanHoiRepo phanHoiRepo;
 
     @Autowired
-    private HocPhanRepo hocPhanRepo;
+    private HocPhanService hocPhanService;
 
     @Autowired
-    private HocPhanService hocPhanService;
+    private GiangVienService giangVienService;
+
+    @Autowired
+    private SinhVienService sinhVienService;
+
+    @GetMapping("/getall-sinhvien")
+    public ResponseEntity<?> getMethodName() {
+        List<SinhVien> sv = sinhVienService.getAllSinhVien();
+        return ResponseEntity.ok(sv);
+    }
+    
+    @PostMapping("/delete-sinhvien/{masv}")
+    public ResponseEntity<?> deleteSinhVien(@PathVariable String masv) {
+        boolean res = sinhVienService.deleteSinhVien(masv);
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/add-sinhvien")
+    public ResponseEntity<?> addSinhVien(@RequestBody SinhVien sv) {
+        SinhVien sv_new = sinhVienService.addSinhVien(sv);
+        if(sv_new != null){
+            return ResponseEntity.ok(sv_new);
+        }
+        return ResponseEntity.badRequest().body("Sinh viên này đã tồn tại");
+    }
+    
+    @PostMapping("/adm-update-sv/{masv}")
+    public ResponseEntity<?> adUpdateSinhVien(@PathVariable String masv, @RequestBody SinhVien sv_new) {
+        SinhVien sv = sinhVienService.adUpdateSinhVien(masv, sv_new);
+        return ResponseEntity.ok(sv);
+    }
+
+    @GetMapping("/getall-giangvien")
+    public ResponseEntity<?> getAllgv() {
+        List<GiangVien> gv = giangVienService.getAllGiangVien();
+        return ResponseEntity.ok(gv);
+    }
+
+    @PostMapping("/delete-giangvien/{magv}")
+    public ResponseEntity<?> deleteGiangVien(@PathVariable String magv) {
+        boolean res = giangVienService.deleteGiangVien(magv);
+        return ResponseEntity.ok(res);
+    }
+    
+    @PostMapping("/add-giangvien")
+    public ResponseEntity<?> addGiangVien(@RequestBody GiangVien gv) {
+        GiangVien gv_new = giangVienService.addGiangVien(gv);
+        if(gv_new != null){
+            return ResponseEntity.ok(gv_new);
+        }
+        return ResponseEntity.badRequest().body("Giảng viên này đã tồn tại");
+    }
+    
+    @PostMapping("/adm-update-gv/{magv}")
+    public ResponseEntity<?> putMethodName(@PathVariable String magv, @RequestBody GiangVien gv) {
+        GiangVien gv_new = giangVienService.adUpdateGiangVien(magv, gv);
+        return ResponseEntity.ok(gv_new);
+    }
 
     @GetMapping("/get-phanhoi")
     public ResponseEntity<?> getPhanhoi() {
@@ -93,7 +151,10 @@ public class AdminController {
     @PostMapping("/add-hocphan")
     public ResponseEntity<?> addHocphan(@RequestBody HocPhan hp) {
         HocPhan hp_new = hocPhanService.addHocPhan(hp);
-        return ResponseEntity.ok(hp_new);
+        if(hp_new != null){
+            return ResponseEntity.ok(hp_new);
+        }
+        return ResponseEntity.badRequest().body("Học phần này đã tồn tại");
     }
 
     @PostMapping("/adm-update-hp/{mahp}")
