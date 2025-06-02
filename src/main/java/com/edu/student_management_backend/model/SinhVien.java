@@ -15,6 +15,8 @@ public class SinhVien {
     private String sodienthoai;
     private String email;
     private String matkhau;
+    private String malop;
+    private String makhoa;
     private String quyen_nd;
     public String getMasv() {
         return masv;
@@ -63,6 +65,18 @@ public class SinhVien {
     }
     public void setMatkhau(String matkhau) {
         this.matkhau = matkhau;
+    }
+    public String getMalop() {
+        return malop;
+    }
+    public void setMalop(String malop) {
+        this.malop = malop;
+    }
+    public String getMakhoa() {
+        return makhoa;
+    }
+    public void setMakhoa(String makhoa) {
+        this.makhoa = makhoa;
     }
     public String getQuyen_nd() {
         return quyen_nd;

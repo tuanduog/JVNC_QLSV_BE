@@ -15,6 +15,8 @@ public class GiangVien {
     private String sodienthoai;
     private String email;
     private String matkhau;
+    private String makhoa;
+    private String mahp;
     private String quyen_nd;
     
 
@@ -80,10 +82,24 @@ public class GiangVien {
     public void setMatkhau(String matkhau) {
         this.matkhau = matkhau;
     }
+    
     public String getQuyen_nd() {
         return quyen_nd;
     }
     public void setQuyen_nd(String quyen_nd) {
         this.quyen_nd = quyen_nd;
     }
+    public String getMakhoa() {
+        return makhoa;
+    }
+    public void setMakhoa(String makhoa) {
+        this.makhoa = makhoa;
+    }
+    public String getMahp() {
+        return mahp;
+    }
+    public void setMahp(String mahp) {
+        this.mahp = mahp;
+    }
+    
 }
