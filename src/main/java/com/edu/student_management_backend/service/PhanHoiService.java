@@ -24,4 +24,8 @@ public class PhanHoiService {
         }
         return false;
     }
+
+    public PhanHoi addPhanHoi(PhanHoi ph){
+        return phanHoiRepo.save(ph);
+    }
 }
