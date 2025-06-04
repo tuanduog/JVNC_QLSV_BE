@@ -12,5 +12,4 @@ import java.util.List;
 @Repository
 public interface ThoiKhoaBieuRepo extends JpaRepository<ThoiKhoaBieu, Integer>{
     List<ThoiKhoaBieu> findAllByMasv(String masv);
-
 }

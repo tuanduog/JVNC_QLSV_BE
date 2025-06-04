@@ -57,4 +57,11 @@ public class SinhVienService {
             return sinhVienRepo.save(sv);
         }).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy sinh viên"));
     }
+    public SinhVien get1SinhVien (String masv){
+        Optional<SinhVien> sv = sinhVienRepo.findByMasv(masv);
+        if(!sv.isPresent()){
+            return null;
+        }
+        return sv.get();
+    }
 }
