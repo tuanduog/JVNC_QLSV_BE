@@ -56,5 +56,12 @@ public class GiangVienController {
         return ResponseEntity.ok(dhp);
     }
     
-    
+    @PutMapping("/update-diem/{madhp}")
+    public ResponseEntity<?> updateDiem(@PathVariable int madhp, @RequestBody DiemHocPhan diemsv) {
+        DiemHocPhan dhp = hocPhanPhuTrachService.updateDiem(madhp, diemsv);
+        if(dhp == null){
+            return ResponseEntity.badRequest().body("Khong tim thay sinh vien nao");
+        }
+        return ResponseEntity.ok(dhp);
+    }
 }
