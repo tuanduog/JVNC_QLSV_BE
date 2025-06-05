@@ -16,24 +16,9 @@ public class GiangVien {
     private String email;
     private String matkhau;
     private String makhoa;
-    private String mahp;
     private String quyen_nd;
     
 
-    public GiangVien() {
-    }
-    public GiangVien(String magv, String hovaten, String gioitinh, String ngaysinh, String quequan, String sodienthoai,
-            String email, String matkhau, String quyen_nd) {
-        this.magv = magv;
-        this.hovaten = hovaten;
-        this.gioitinh = gioitinh;
-        this.ngaysinh = ngaysinh;
-        this.quequan = quequan;
-        this.sodienthoai = sodienthoai;
-        this.email = email;
-        this.matkhau = matkhau;
-        this.quyen_nd = quyen_nd;
-    }
     public String getMagv() {
         return magv;
     }
@@ -95,11 +80,4 @@ public class GiangVien {
     public void setMakhoa(String makhoa) {
         this.makhoa = makhoa;
     }
-    public String getMahp() {
-        return mahp;
-    }
-    public void setMahp(String mahp) {
-        this.mahp = mahp;
-    }
-    
 }

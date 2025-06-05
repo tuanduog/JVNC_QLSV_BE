@@ -16,7 +16,7 @@ public class SinhVien {
     private String email;
     private String matkhau;
     private String malop;
-    private String makhoa;
+    private String manganh;
     private String quyen_nd;
     public String getMasv() {
         return masv;
@@ -72,17 +72,17 @@ public class SinhVien {
     public void setMalop(String malop) {
         this.malop = malop;
     }
-    public String getMakhoa() {
-        return makhoa;
-    }
-    public void setMakhoa(String makhoa) {
-        this.makhoa = makhoa;
-    }
     public String getQuyen_nd() {
         return quyen_nd;
     }
     public void setQuyen_nd(String quyen_nd) {
         this.quyen_nd = quyen_nd;
+    }
+    public String getManganh() {
+        return manganh;
+    }
+    public void setManganh(String manganh) {
+        this.manganh = manganh;
     }
     
 }

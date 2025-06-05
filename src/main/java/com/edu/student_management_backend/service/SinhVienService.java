@@ -18,6 +18,7 @@ public class SinhVienService {
     private SinhVienRepo sinhVienRepo;
     public SinhVien updateSinhVien (String masv, SinhVien sv_new){
         return sinhVienRepo.findByMasv(masv).map(sv -> {
+            sv.setHovaten(sv_new.getHovaten());
             sv.setGioitinh(sv_new.getGioitinh());
             sv.setNgaysinh(sv_new.getNgaysinh());
             sv.setQuequan(sv_new.getQuequan());
@@ -54,6 +55,8 @@ public class SinhVienService {
             sv.setQuequan(sv_new.getQuequan());
             sv.setSodienthoai(sv_new.getSodienthoai());
             sv.setEmail(sv_new.getEmail());
+            sv.setMalop(sv_new.getMalop());
+            sv.setManganh(sv_new.getManganh());
             return sinhVienRepo.save(sv);
         }).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy sinh viên"));
     }

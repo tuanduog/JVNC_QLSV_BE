@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.student_management_backend.model.DiemHocPhan;
+import com.edu.student_management_backend.model.Lop;
 import com.edu.student_management_backend.model.PhanHoi;
 import com.edu.student_management_backend.model.SinhVien;
 import com.edu.student_management_backend.model.ThoiKhoaBieu;
 import com.edu.student_management_backend.service.DiemHocPhanService;
+import com.edu.student_management_backend.service.LopService;
 import com.edu.student_management_backend.service.PhanHoiService;
 import com.edu.student_management_backend.service.SinhVienService;
 import com.edu.student_management_backend.service.ThoiKhoaBieuService;
@@ -39,6 +41,8 @@ public class SinhVienController {
     private ThoiKhoaBieuService thoiKhoaBieuService;
 
     @Autowired DiemHocPhanService diemHocPhanService;
+    @Autowired
+    private LopService lopService;
 
     @PutMapping("/update-sinhvien/{id}")
     public ResponseEntity<?> updateSinhVien(@PathVariable String id, @RequestBody SinhVien sinhVien) {
@@ -80,5 +84,15 @@ public class SinhVienController {
         }
         return ResponseEntity.ok(sv);
     }
+
+    @GetMapping("/getlopinfo/{malop}")
+    public ResponseEntity<?> getLopInfo(@PathVariable String malop) {
+        Lop lp = lopService.getLopInfo(malop);
+        if(lp == null){
+            return ResponseEntity.badRequest().body("Ko tim thay lop");
+        }
+        return ResponseEntity.ok(lp);
+    }
+    
     
 }

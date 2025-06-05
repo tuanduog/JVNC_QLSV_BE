@@ -18,6 +18,7 @@ public class GiangVienService {
     private GiangVienRepo giangVienRepo;
     public GiangVien updateGiangVien(String magv, GiangVien gv_new){
         return giangVienRepo.findByMagv(magv).map(gv -> {
+            gv.setHovaten(gv_new.getHovaten());
             gv.setNgaysinh(gv_new.getNgaysinh());
             gv.setQuequan(gv_new.getQuequan());
             gv.setGioitinh(gv_new.getGioitinh());
@@ -55,6 +56,7 @@ public class GiangVienService {
             gv.setQuequan(gv_new.getQuequan());
             gv.setSodienthoai(gv_new.getSodienthoai());
             gv.setEmail(gv_new.getEmail());
+            gv.setMakhoa(gv_new.getMakhoa());
             return giangVienRepo.save(gv);
         }).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy sinh viên"));
     }
