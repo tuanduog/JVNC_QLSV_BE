@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://api.student-management.io.vn")
 public class GiangVienController {
     @Autowired
     private GiangVienService giangVienService;
