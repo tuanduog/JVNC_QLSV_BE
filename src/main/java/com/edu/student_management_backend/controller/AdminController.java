@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://api.student-management.io.vn")
+@CrossOrigin(origins = "https://api.student-management.io.vn")
 public class AdminController {
     @Autowired
     private PhanHoiService phanHoiService;
