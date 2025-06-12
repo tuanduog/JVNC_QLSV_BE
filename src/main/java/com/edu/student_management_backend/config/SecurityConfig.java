@@ -17,7 +17,7 @@ import org.springframework.web.filter.CorsFilter;
 import com.edu.student_management_backend.middleware.jwtAuthFilter;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -35,7 +35,7 @@ public class SecurityConfig {
     // Đăng ký PasswordEncoder thành Bean để có thể @Autowired
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     // Cho phép truy cập /auth/login không cần xác thực
